@@ -3,6 +3,7 @@ from discord.ext.commands import Context
 import asyncio
 from async_timeout import timeout
 from .core import QueueGenerator
+from typing import Iterable
 
 
 class MusicPlayer:
@@ -37,6 +38,15 @@ class MusicPlayer:
 
     def __iter__(self, /):
         return len(self.queue)
+
+    def __getitem__(self, index: int, /):
+        return self.queue[index]
+
+    def __setitem__(self, index: int, value: QueueGenerator, /):
+        self.queue[index] = value
+
+    def __delitem__(self, index: int, /):
+        del self.queue[index]
 
     async def player_loop(self, /):
         await self.bot.wait_until_ready()
@@ -80,7 +90,19 @@ class MusicPlayer:
     def append(self, generator: QueueGenerator, /):
         self.queue.append(generator)
 
-    def jump(self, index, /):
+    def clear(self, /):
+        self.queue.clear()
+
+    def extend(self, other: Iterable[QueueGenerator], /):
+        self.queue.extend(other)
+
+    def insert(self, index: int, value: QueueGenerator):
+        self.queue.insert(index, value)
+
+    def pop(self, index=-1, /):
+        self.queue.pop(index)
+
+    def jump(self, index: int, /):
         if index < 0:
             index = 0
         if index > len(self):
