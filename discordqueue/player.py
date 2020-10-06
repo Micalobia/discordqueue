@@ -17,7 +17,8 @@ class MusicPlayer:
         'next',
         'np',
         'leave_time',
-        'poll_frequency'
+        'poll_frequency',
+        'current'
     )
 
     def __init__(self, ctx: Context, /, *, leave_time=300, poll_frequency=1):
@@ -31,6 +32,7 @@ class MusicPlayer:
         self.np = None
         self.leave_time = leave_time
         self.poll_frequency = poll_frequency
+        self.current = None
         self.bot.loop.create_task(self.player_loop())
 
     def __len__(self, /):
