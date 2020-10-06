@@ -4,7 +4,7 @@ with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="discordqueue-Micalobia",  # Replace with your own username
+    name="discordqueue",
     version="0.1.0",
     author="Micalobia",
     author_email="micalobiabusiness@gmail.com",
