@@ -12,6 +12,9 @@ class QueueGenerator:
     async def send(self, ctx: Union[Context, TextChannel], /):
         raise NotImplementedError
 
+    def destroy(self, /):
+        raise NotImplementedError
+
 
 class QueueCog(Cog):
     def __init__(self, /):
