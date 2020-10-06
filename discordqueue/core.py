@@ -1,13 +1,15 @@
+from discord import Guild
+from discord import TextChannel
 from discord.ext.commands import Context
 from discord.ext.commands import Cog
-from discord import Guild
+from typing import Union
 
 
 class QueueGenerator:
     async def create_player(self, /):
         raise NotImplementedError
 
-    async def send(self, ctx: Context, /):
+    async def send(self, ctx: Union[Context, TextChannel], /):
         raise NotImplementedError
 
 
@@ -22,6 +24,22 @@ class QueueCog(Cog):
             pass
 
         try:
-            del self.players[guild.id]
+            del self[guild]
         except KeyError:
             pass
+
+    def __getitem__(self, index: Union[Guild, int], /):
+        if isinstance(index, Guild):
+            return self.players[index.id]
+        elif isinstance(index, int):
+            return self.players[index]
+        else:
+            raise TypeError('indicies must be guilds or guild ids')
+
+    def __delitem__(self, index: Union[Guild, int], /):
+        if isinstance(index, Guild):
+            del self.players[index.id]
+        elif isinstance(index, int):
+            del self.players[index]
+        else:
+            raise TypeError('indicies must be guilds or guild ids')
